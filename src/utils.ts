@@ -86,7 +86,7 @@ export const recalculate = (inventory: TInventory, newTransaction: TPurchase | T
               value: accumulateValue 
             } });
         } else {
-          throw new Error(`Insufficient stock for sale on date: ${transaction.date}`);
+          throw new Error(`Insufficient stock for sale on date: ${formatDate(transaction.date)}`);
         }
       }
     }
