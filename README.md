@@ -29,6 +29,7 @@ This is system can be used to track purchase and sales records, and calculating 
 
 * **Record Purchase Transactions:**
     * A form to add new purchase transaction, including date, purchase quantity and total cost (RM).
+###
 * **Purchase Transactions Listing:**
     * Displays a list of purchase transactions, each with info:
 	    * Date
@@ -37,8 +38,10 @@ This is system can be used to track purchase and sales records, and calculating 
 	    * Cost / Unit (RM)
 	    * Total Cost (RM)
 	    * WAC (Cumulative) (RM)
+###
 * **Sales Transaction Recording:**
     * A form to add new sales transaction, including date, quantity, and total amount (RM).
+###
 * **Sales Transaction Listing:**
     * Displays a list of all recorded sales transactions, including:
         * Date
@@ -55,22 +58,26 @@ This is system can be used to track purchase and sales records, and calculating 
     * Use the input fields to enter the date, quantity, and total cost (RM) for a new purchase transaction.
     * Click the “Add Purchase” button to save the purchase transaction.
     * The list of purchase transactions will be displayed.
+###
 2.  **Sales Transactions:**
     * User can navigate to "Sales" section by selecting "Sales" tab on top of the page.
     * Use the input fields to enter the date, quantity, and total amount (RM) for a new sales transaction.
     * Click the “Add Sales” button to save the sales transaction.
     * The list of sales transactions will be displayed below the input form.
+###
  3.  **Edit Transactions:**
 	* All transactions added can be edit. New stock amount, total stock value and WAC will be calculated after editing.
 	* User can click on "Pen" icon in "Action" column in each transaction to start editing.
 	* After editing, user can select "Tick" icon in "Action" column to save the changes, or "Cross" icon in "Action" column to discard the changes.
-4.  **Delete Transactions:**
+###
+5.  **Delete Transactions:**
 	* All transactions added can be deleted. New stock amount, total stock value and WAC will be calculated after editing.
 	* User can click on "Delete" icon in "Action" column in each transaction to delete.
 	* User can select "Tick" icon in "Action" column to confirm the deletion, or "Cross" icon in "Action" column to not delete the transaction.
+###
 5.  **Validation:**
 	* There are validation for adding, editing and deleting a transaction. Error message will be appeared on screen when there are a not logical transaction.
 
 ## Links
-**User  Guide Video:** https://www.youtube.com/watch?v=7WGNhYGswC4&ab_channel=Xun
+**User  Guide Video:** https://www.youtube.com/watch?v=7WGNhYGswC4&ab_channel=Xun \
 **Live URL:** https://junshiun.github.io/bukku-assignment-fe/
