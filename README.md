@@ -79,7 +79,7 @@ This system can be used to track purchases and sales records, and calculating th
 	* User can select "Tick" icon in "Action" column to confirm the deletion, or "Cross" icon in the "Action" column to not delete the transaction.
 ###
 5.  **Validation:**
-	* There are validation for adding, editing and deleting a transaction. Error message will be appeared on screen when there are any not logical transaction identified.
+	* There are validation for adding, editing and deleting a transaction. Error message will appear on screen when there are any illogical transaction identified. (e.g. Ensures quantity is positive)
 ###
 6.  **Latest WAC and Stock Quantity:**
 	* Current WAC and quantity of stock will be calculated and updated after each action.
