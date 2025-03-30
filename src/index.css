@@ -59,7 +59,7 @@ input {
   @apply p-2 border rounded-md w-full
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -70,4 +70,4 @@ input {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
