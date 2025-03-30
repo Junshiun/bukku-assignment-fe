@@ -1,7 +1,7 @@
 import { ActionDispatch, createContext, Dispatch, PropsWithChildren, useContext, useEffect, useReducer, useState } from "react";
-import { TPurchase } from "./purchases";
-import { TSale } from "./sales";
-import { isPurchase, recalculate } from "./utils";
+import { TPurchase } from "../components/features/purchases";
+import { TSale } from "../components/features/sales";
+import { isPurchase, recalculate } from "../utils";
 
 export type TInventory = {
   purchases: TPurchase[];
@@ -19,58 +19,26 @@ export enum TInventoryAction {
     delete = "deleteTransaction"
 }
 
-type TTransactionAction<T> = {
-    type: T;
-    payload: {
-        transaction: TPurchase | TSale
-    }
-}
-
-type TAction = TTransactionAction<TInventoryAction.add> | TTransactionAction<TInventoryAction.edit> | TTransactionAction<TInventoryAction.delete>
-
 const InventoryContext = createContext<{
     inventoryState: TInventory,
-    // setInventoryState: Dispatch<TInventory>
-    // inventoryDispatch: Dispatch<TAction>
-    inventoryDispatch: (props: {type: TInventoryAction, payload: {
-        transaction: TPurchase | TSale
-    }}) => void
+    inventoryDispatch: (props: { // update inventory state
+        type: TInventoryAction, 
+        payload: {
+            transaction: TPurchase | TSale
+        }
+    }) => void
 } | null>(null);
-
-// const InventoryReducer = (state: TInventory, action: TAction) => {
-
-//     const transaction = action.payload.transaction;
-
-//     switch(action.type) {
-//         case TInventoryAction.add:
-//             return recalculate(state, transaction, TInventoryAction.add)
-//         case TInventoryAction.delete:
-//             return recalculate(state, transaction, TInventoryAction.delete)
-//         case TInventoryAction.edit:
-//             return recalculate(state, transaction, TInventoryAction.edit)
-//         default:
-//             return state;
-//     }
-// }
 
 export const InventoryProvider = (props: PropsWithChildren) => {
 
-    const [inventoryState, setInventoryState] = useState(() => {
+    const [inventoryState, setInventoryState] = useState(() => { // get from local storage as initial value, if local storage is empty, initialize with default inventory state
         const saved = localStorage.getItem('inventory');
         return saved
           ? JSON.parse(saved)
           : { purchases: [], sales: [], stock: 0, wac: 0, totalValue: 0 };
     })
 
-    // const [inventoryState, inventoryDispatch] = useReducer(InventoryReducer, null, () => {
-    //     const saved = localStorage.getItem('inventory');
-    //     return saved
-    //       ? JSON.parse(saved)
-    //       : InventoryInitial;
-    // });
-    
-    // Save to localStorage
-    useEffect(() => {
+    useEffect(() => { // save to local storage whenever inventory state change
         localStorage.setItem('inventory', JSON.stringify(inventoryState));
     }, [inventoryState]);
 

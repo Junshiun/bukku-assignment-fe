@@ -1,18 +1,21 @@
 import { MdDelete, MdEdit } from "react-icons/md"
-import { formatDate, recalculate } from "./utils"
-import { purchaseFormInitial, TPurchase } from "./purchases"
-import { useRef, useState } from "react"
+import { formatDate, recalculate } from "../../utils"
+import { purchaseFormInitial, TPurchase } from "../features/purchases"
+import { InputHTMLAttributes, useRef, useState } from "react"
 import { IoMdCheckmark, IoMdClose } from "react-icons/io"
-import { TInventoryAction, useInventoryContext } from "./context"
-import { TSale } from "./sales"
+import { TInventoryAction, useInventoryContext } from "../../context/inventoryContext"
+import { TSale } from "../features/sales"
 
 export const Row = (props: {
     transaction: TPurchase | TSale,
-    initialValue: {
-        name: string,
-        type?: string,
-        defaultValue?: number | string,
-        nonEditable?: boolean
+    columns: {
+        nonEditable?: boolean,
+        formatValue?: (value: string) => unknown, // convert string into other type for state update
+        renderValue?: (value: unknown) => string, // convert value into string type for rendering
+        attributes: InputHTMLAttributes<HTMLInputElement> & { // input attributes
+            name: string,
+            defaultValue: number | string,
+        }
     }[]
 }) => {
 
@@ -31,19 +34,20 @@ export const Row = (props: {
     return (
         <tr>
             {
-                props.initialValue.map(detail => {
+                props.columns.map(detail => {
                     return (
-                        <td className="border p-2" key={detail.name}>{
+                        <td className="border p-2" key={detail.attributes.name}>{
                             (action === TInventoryAction.edit && !detail.nonEditable) ?
                             <input
-                                type={detail.type}
-                                name={detail.name}
-                                defaultValue={detail.defaultValue}
-                                onChange={(ev) => setForm({ ...form, [detail.name]: ev.target.value })}
+                                onChange={(ev) => {
+                                    setForm({ ...form, [detail.attributes.name]: detail.formatValue? detail.formatValue(ev.target.value): ev.target.value })
+                                }}
+                                {...detail.attributes}
                                 required
                             />
                             :
-                            detail.defaultValue
+                            (detail.renderValue? detail.renderValue(detail.attributes.defaultValue)
+                                : detail.attributes.defaultValue)
                         }</td>
                     )
                 })
@@ -52,7 +56,7 @@ export const Row = (props: {
                 {
                     action? 
                     <>
-                        <button onClick={() => {
+                        <button onClick={() => { // confirm edit / delete
                             try {
                                 inventoryDispatch({
                                     type: action,
@@ -69,7 +73,7 @@ export const Row = (props: {
                         }}>
                             <IoMdCheckmark />
                         </button>
-                        <button onClick={() => {
+                        <button onClick={() => { // discard edit / delete
                             setError(null);
                             setAction(null)
                         }}>
@@ -78,13 +82,13 @@ export const Row = (props: {
                     </>
                     :
                     <>
-                        <button onClick={() => {
+                        <button onClick={() => { // edit
                             setError(null);
                             setAction(TInventoryAction.edit)
                         }}>
                             <MdEdit />
                         </button>
-                        <button onClick={() => {
+                        <button onClick={() => { // delete
                             setError(null);
                             setAction(TInventoryAction.delete)
                         }}>

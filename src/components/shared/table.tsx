@@ -5,7 +5,7 @@ export const Table = (props: PropsWithChildren<{
 }>) => {
 
     return (
-        <table className="min-w-[45rem] max-w-full w-full border-collapse h-fit">
+        <table className="block w-full overflow-x-auto border-collapse h-fit">
             <thead>
                 <tr className="bg-black">
                 {

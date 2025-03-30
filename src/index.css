@@ -30,6 +30,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -48,6 +49,10 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+form {
+  @apply flex flex-col gap-4 p-4 border border-gray-300 rounded-md mb-6  w-full
 }
 
 input {

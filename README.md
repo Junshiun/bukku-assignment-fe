@@ -1,54 +1,76 @@
-# React + TypeScript + Vite
+# WAC System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is system can be used to track purchase and sales records, and calculating the cost for each of the sales records, using Weighted Average Cost (WAC) method.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1.  **Clone the repository:**
 
-## Expanding the ESLint configuration
+    ```bash
+    git clone https://github.com/Junshiun/bukku-assignment-fe.git
+    cd bukku-assignment-fe
+    ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2.  **Install dependencies:**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+    ```bash
+    npm install
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3.  **Run the development server:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    ```bash
+    npm run dev
+    ```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+    This will start the Vite development server, and you can access the application in your browser at the URL displayed in the terminal (usually `http://localhost:5173/`).
+
+## Features
+
+* **Record Purchase Transactions:**
+    * A form to add new purchase transaction, including date, purchase quantity and total cost (RM).
+* **Purchase Transactions Listing:**
+    * Displays a list of purchase transactions, each with info:
+	    * Date
+	    * ID
+	    * Quantity
+	    * Cost / Unit (RM)
+	    * Total Cost (RM)
+	    * WAC (Cumulative) (RM)
+* **Sales Transaction Recording:**
+    * A form to add new sales transaction, including date, quantity, and total amount (RM).
+* **Sales Transaction Listing:**
+    * Displays a list of all recorded sales transactions, including:
+        * Date
+        * ID
+        * Quantity
+        * Sales Price / Unit (RM)
+        * Total Amount (RM)
+        * Total Cost (RM)
+
+## User Guide
+
+1.  **Purchase Transactions:**
+    * The page will show "Purchase" section by default. User can navigate to "Purchase" section by selecting "Purchase" tab on top of the page.
+    * Use the input fields to enter the date, quantity, and total cost (RM) for a new purchase transaction.
+    * Click the “Add Purchase” button to save the purchase transaction.
+    * The list of purchase transactions will be displayed.
+2.  **Sales Transactions:**
+    * User can navigate to "Sales" section by selecting "Sales" tab on top of the page.
+    * Use the input fields to enter the date, quantity, and total amount (RM) for a new sales transaction.
+    * Click the “Add Sales” button to save the sales transaction.
+    * The list of sales transactions will be displayed below the input form.
+ 3.  **Edit Transactions:**
+	* All transactions added can be edit. New stock amount, total stock value and WAC will be calculated after editing.
+	* User can click on "Pen" icon in "Action" column in each transaction to start editing.
+	* After editing, user can select "Tick" icon in "Action" column to save the changes, or "Cross" icon in "Action" column to discard the changes.
+4.  **Delete Transactions:**
+	* All transactions added can be deleted. New stock amount, total stock value and WAC will be calculated after editing.
+	* User can click on "Delete" icon in "Action" column in each transaction to delete.
+	* User can select "Tick" icon in "Action" column to confirm the deletion, or "Cross" icon in "Action" column to not delete the transaction.
+5.  **Validation:**
+	* There are validation for adding, editing and deleting a transaction. Error message will be appeared on screen when there are a not logical transaction.
+
+## Links
+**User  Guide Video:** https://www.youtube.com/watch?v=7WGNhYGswC4&ab_channel=Xun
+**Live URL:** 

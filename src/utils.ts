@@ -1,8 +1,13 @@
-import { InventoryInitial, TInventory, TInventoryAction } from "./context";
-import { TPurchase } from "./purchases";
-import { TSale } from "./sales";
+import { InventoryInitial, TInventory, TInventoryAction } from "./context/inventoryContext";
+import { TPurchase } from "./components/features/purchases";
+import { TSale } from "./components/features/sales";
 
-export const formatDate = (date: string) => new Date(date).toLocaleDateString('en-GB');
+export const formatDate = (date: string) => { // mm/dd/yyyy (same as default date input)
+  const newDate = new Date(date);
+
+  return `${(newDate.getMonth() + 1).toString().padStart(2, "0")}/${newDate.getDate().toString().padStart(2, "0")}/${newDate.getFullYear()}` 
+};
+
 export const generateId = () => Date.now();
 
 export const isPurchase = (transaction: TPurchase | TSale): transaction is TPurchase => {
@@ -15,18 +20,18 @@ export const isSale = (transaction: TPurchase | TSale): transaction is TSale => 
 
 export const recalculate = (inventory: TInventory, newTransaction: TPurchase | TSale, type: TInventoryAction) => {
 
-  let updateTransaction = [...inventory.purchases, ...inventory.sales];
+  let updateTransaction = [...inventory.purchases, ...inventory.sales]; // combine all previous transaction
 
   switch (type) {
     case TInventoryAction.add:
-      updateTransaction.push(newTransaction);
+      updateTransaction.push(newTransaction); // add new transaction
       break;
     case TInventoryAction.edit:
-      updateTransaction[updateTransaction.findIndex(transaction => transaction.id === newTransaction.id)] = newTransaction;
+      updateTransaction[updateTransaction.findIndex(transaction => transaction.id === newTransaction.id)] = newTransaction; // replace old transaction with new transaction
       break;
     case TInventoryAction.delete:
-      updateTransaction = updateTransaction.filter(transaction => transaction.id !== newTransaction.id);
-      if (updateTransaction.length < 1) {
+      updateTransaction = updateTransaction.filter(transaction => transaction.id !== newTransaction.id); // delete target transaction
+      if (updateTransaction.length < 1) { // return if no transaction after deletion
         return InventoryInitial
       }
       break;
@@ -34,14 +39,16 @@ export const recalculate = (inventory: TInventory, newTransaction: TPurchase | T
 
   const allTransactions = updateTransaction.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const affectedTransactionsStartIndex = allTransactions.findIndex(transaction => new Date(transaction.date).getTime() >= new Date(newTransaction.date).getTime());
+  let affectedTransactionsStartIndex = allTransactions.findIndex(transaction => new Date(transaction.date).getTime() >= new Date(newTransaction.date).getTime());
 
-  const lastUnaffectedTransaction = affectedTransactionsStartIndex > 0 ? allTransactions[affectedTransactionsStartIndex - 1] : null;
+  affectedTransactionsStartIndex = affectedTransactionsStartIndex >= 0? affectedTransactionsStartIndex: allTransactions.length;
+
+  const lastUnaffectedTransaction = allTransactions[affectedTransactionsStartIndex - 1];
 
   const updatedPurchases: TPurchase[] = [];
   const updatedSales: TSale[] = [];
 
-  allTransactions.slice(0, affectedTransactionsStartIndex).forEach(transaction => {
+  allTransactions.slice(0, affectedTransactionsStartIndex).forEach(transaction => { // collect and categorise all unaffected transactions
     if (isPurchase(transaction)) {
       updatedPurchases.push(transaction);
     } else {
@@ -53,32 +60,27 @@ export const recalculate = (inventory: TInventory, newTransaction: TPurchase | T
   let accumulateValue = lastUnaffectedTransaction?.accumulate?.value || 0;
   let wac = accumulateStock > 0? (accumulateValue / accumulateStock): 0;
 
-  if (affectedTransactionsStartIndex > 0) {
-    for (let i=affectedTransactionsStartIndex; i<allTransactions.length; i++) {
+  if (affectedTransactionsStartIndex >= 0) { // skip below logic for delete action
+    for (let i=affectedTransactionsStartIndex; i<allTransactions.length; i++) { // starts from new transaction
       const transaction = allTransactions[i];
 
       if (isPurchase(transaction)) {
         accumulateStock += +transaction.quantity;
-        const totalValue = transaction.costPerUnit * transaction.quantity;
-
-        accumulateValue += totalValue;
+        accumulateValue += +transaction.totalCost;
         wac = accumulateValue / accumulateStock;
         updatedPurchases.push({ ...transaction,
-          costPerUnit: transaction.costPerUnit,
-          totalValue: totalValue,
           accumulate: {
             stock: accumulateStock,
             value: accumulateValue
         }});
       } else {
         if (accumulateStock >= transaction.quantity) {
-          const totalCost = transaction.quantity * wac; // Recalculate totalCost based on current WAC
+          const totalCost = transaction.quantity * wac;
           accumulateStock -= transaction.quantity;
           accumulateValue -= totalCost;
           updatedSales.push({ 
             ...transaction, 
             totalCost,
-            totalAmount: transaction.quantity * transaction.salesPricePerUnit,
             accumulate: { 
               stock: accumulateStock, 
               value: accumulateValue 
@@ -99,7 +101,6 @@ export const recalculate = (inventory: TInventory, newTransaction: TPurchase | T
   };
 }
 
-// only one transaction per day is allowed
-export const validateTransactionDate = (inventory: TInventory, date: string) => {
+export const validateTransactionDate = (inventory: TInventory, date: string) => { // only one transaction per day is allowed
   return ![...inventory.purchases, ...inventory.sales].some((transaction) => transaction.date === date);
 };
