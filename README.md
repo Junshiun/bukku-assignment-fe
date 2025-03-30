@@ -73,4 +73,4 @@ This is system can be used to track purchase and sales records, and calculating 
 
 ## Links
 **User  Guide Video:** https://www.youtube.com/watch?v=7WGNhYGswC4&ab_channel=Xun
-**Live URL:** 
+**Live URL:** https://junshiun.github.io/bukku-assignment-fe/
