@@ -58,25 +58,25 @@ This system can be used to track purchases and sales records, and calculating th
 
 1.  **Purchase Transactions:**
     * The page will show "Purchases" section by default. User can navigate to "Purchases" section by selecting "Purchases" tab on top of the page.
-    * Use the input fields to enter the date, quantity, and total cost (RM) for a new purchase transaction.
+    * Enter the date, quantity, and total cost (RM) to add a new purchase transaction.
     * Click the “Add Purchase” button to save the purchase transaction.
     * The list of purchase transactions will be displayed.
 ###
 2.  **Sales Transactions:**
     * User can navigate to "Sales" section by selecting "Sales" tab on top of the page.
-    * Use the input fields to enter the date, quantity, and total amount (RM) for a new sales transaction.
+    * Enter the date, quantity, and total amount (RM) to add a new sales transaction.
     * Click the “Add Sales” button to save the sales transaction.
     * The list of sales transactions will be displayed below the input form.
 ###
  3.  **Edit Transactions:**
 	* All transactions added can be edited. New stock amount, total stock value and WAC will be calculated after editing.
-	* User can click on "Pen" icon in "Action" column in each transaction to start editing.
-	* After editing, user can select "Tick" icon in "Action" column to save the changes, or "Cross" icon in "Action" column to discard the changes.
+	* In transaction list, user can click on "Pen" icon in the "Action" column in each transaction to start editing.
+	* After editing, user can select "Tick" icon in "Action" column to save the changes, or "Cross" icon in the "Action" column to discard the changes.
 ###
 4.  **Delete Transactions:**
 	* All transactions added can be deleted. New stock amount, total stock value and WAC will be calculated after editing.
-	* User can click on "Delete" icon in "Action" column in each transaction to delete.
-	* User can select "Tick" icon in "Action" column to confirm the deletion, or "Cross" icon in "Action" column to not delete the transaction.
+	* In transaction list, user can click on "Delete" icon in the "Action" column in each transaction to delete.
+	* User can select "Tick" icon in "Action" column to confirm the deletion, or "Cross" icon in the "Action" column to not delete the transaction.
 ###
 5.  **Validation:**
 	* There are validation for adding, editing and deleting a transaction. Error message will be appeared on screen when there are any not logical transaction identified.
