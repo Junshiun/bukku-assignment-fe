@@ -4,6 +4,7 @@ import { TInventoryAction, useInventoryContext } from "../../context/inventoryCo
 import { Row } from "../shared/row";
 import { Table } from "../shared/table";
 import { FormField } from "../shared/formField";
+import { Input } from "../shared/input";
 
 export type TSale = {
   type: "sale";
@@ -12,6 +13,7 @@ export type TSale = {
   quantity: number;
   totalAmount: number;
   totalCost?: number;
+  salesPricePerUnit?: number;
   accumulate?: {
     stock: number;
     value: number;
@@ -73,7 +75,7 @@ export const SalesForm = () => {
         <>
           <form onSubmit={handleSaleSubmit}>
             <FormField label="Date">
-              <input
+              <Input<TSale>
                 type="date"
                 name="date"
                 value={saleForm.date}
@@ -82,22 +84,22 @@ export const SalesForm = () => {
               />
             </FormField>
             <FormField label="Quantity">
-              <input
+              <Input<TSale>
                 type="number"
                 min="1"
                 name="quantity"
-                value={saleForm.quantity}
+                value={isNaN(saleForm.quantity)? "": saleForm.quantity} // avoid input value NaN error
                 onChange={(e) => setSaleForm({ ...saleForm, quantity: parseInt(e.target.value) })}
                 required
               />
             </FormField>
             <FormField label="Total Amount (RM)">
-              <input
+              <Input<TSale>
                 type="number"
                 step="0.01"
                 min="0.01"
-                name="cost"
-                value={saleForm.totalAmount}
+                name="totalAmount"
+                value={isNaN(saleForm.totalAmount)? "": saleForm.totalAmount}
                 onChange={(e) => setSaleForm({ ...saleForm, totalAmount: parseFloat(e.target.value) })}
                 required
               />
@@ -114,7 +116,7 @@ export const SalesForm = () => {
 
         <Table headings={["Date (mm/dd/yyyy)", "ID", "Quantity", "Sales Price/Unit (RM)", "Total Amount (RM)", "Total Cost (RM)", "Action"]}>
           {inventoryState.sales.map(s => (
-              <Row key={s.id} transaction={s} columns={[
+              <Row<TSale> key={s.id} transaction={s} columns={[
                 {
                   attributes: {
                     name: "date",
@@ -133,7 +135,10 @@ export const SalesForm = () => {
                 {
                   attributes: {
                     name: "quantity",
-                    defaultValue: s.quantity
+                    defaultValue: s.quantity,
+                    type:"number",
+                    step:"1",
+                    min:"1"
                   },
                   formatValue: (value) => parseInt(value)
                 },
@@ -148,6 +153,9 @@ export const SalesForm = () => {
                   attributes: {
                     name: "totalAmount",
                     defaultValue: parseFloat(`${s.totalAmount}`).toFixed(2),
+                    type:"number",
+                    step:"0.01",
+                    min:"0.01",
                   },
                   formatValue: (value) => parseFloat(value)
                 },

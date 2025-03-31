@@ -20,6 +20,20 @@ export const isSale = (transaction: TPurchase | TSale): transaction is TSale => 
 
 export const recalculate = (inventory: TInventory, newTransaction: TPurchase | TSale, type: TInventoryAction) => {
 
+  if (isPurchase(newTransaction)) { // new transaction validation
+    if (newTransaction.totalCost < 0) {
+      throw new Error("Total cost of purchase cannot be less than 0");
+    } else if (newTransaction.quantity < 0) {
+      throw new Error("Quantity of purchase cannot be less than 0");
+    }
+  } else {
+    if (newTransaction.totalAmount < 0) {
+      throw new Error("Total amount of sales cannot be less than 0");
+    } else if (newTransaction.quantity < 0) {
+      throw new Error("Quantity of sales cannot be less than 0");
+    }
+  }
+
   let updateTransaction = [...inventory.purchases, ...inventory.sales]; // combine all previous transaction
 
   switch (type) {

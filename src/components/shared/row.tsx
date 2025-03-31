@@ -4,19 +4,22 @@ import { InputHTMLAttributes, useState } from "react"
 import { IoMdCheckmark, IoMdClose } from "react-icons/io"
 import { TInventoryAction, useInventoryContext } from "../../context/inventoryContext"
 import { TSale } from "../features/sales"
+import { Input } from "./input"
 
-export const Row = (props: {
-    transaction: TPurchase | TSale,
+type TRowProps<T extends (TPurchase | TSale)> = {
+    transaction: T,
     columns: {
         nonEditable?: boolean,
         formatValue?: (value: string) => unknown, // convert string into other type for state update
         renderValue?: (value: unknown) => string, // convert value into string type for rendering
         attributes: InputHTMLAttributes<HTMLInputElement> & { // input attributes
-            name: string,
+            name: keyof T,
             defaultValue: number | string,
         }
     }[]
-}) => {
+} 
+
+export const Row = <T extends (TPurchase | TSale),>(props: TRowProps<T>) => {
 
     const inventory = useInventoryContext();
     
@@ -37,7 +40,7 @@ export const Row = (props: {
                     return (
                         <td className="border p-2" key={detail.attributes.name}>{
                             (action === TInventoryAction.edit && !detail.nonEditable) ?
-                            <input
+                            <Input<T>
                                 onChange={(ev) => {
                                     setForm({ ...form, [detail.attributes.name]: detail.formatValue? detail.formatValue(ev.target.value): ev.target.value })
                                 }}

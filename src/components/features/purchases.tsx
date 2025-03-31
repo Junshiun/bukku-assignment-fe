@@ -4,6 +4,7 @@ import { Row } from "../shared/row";
 import { TInventoryAction, useInventoryContext } from "../../context/inventoryContext";
 import { Table } from "../shared/table";
 import { FormField } from "../shared/formField";
+import { Input } from "../shared/input";
 
 export type TPurchase = {
   type: "purchase";
@@ -11,6 +12,8 @@ export type TPurchase = {
   date: string; // "yyyy-mm-dd"
   quantity: number;
   totalCost: number;
+  costPerUnit?: number;
+  wac?: number;
   accumulate?: {
     stock: number;
     value: number;
@@ -69,32 +72,32 @@ export const PurchasesForm = () => {
         <>
           <form onSubmit={handlePurchaseSubmit}>
             <FormField label="Date">
-              <input
-                  type="date"
-                  name="date"
-                  value={purchaseForm.date}
-                  onChange={ev => setPurchaseForm({ ...purchaseForm, date: ev.target.value })}
-                  required
-                />
+              <Input<TPurchase>
+                type="date"
+                name="date"
+                value={purchaseForm.date}
+                onChange={ev => setPurchaseForm({ ...purchaseForm, date: ev.target.value })}
+                required
+              />
             </FormField>
             <FormField label="Quantity">
-              <input
+              <Input<TPurchase>
                   type="number"
                   step="1"
                   min="1"
                   name="quantity"
-                  value={purchaseForm.quantity}
+                  value={isNaN(purchaseForm.quantity)? "": purchaseForm.quantity} // avoid input value NaN error
                   onChange={ev => setPurchaseForm({ ...purchaseForm, quantity: parseInt(ev.target.value) })}
                   required
                 />
             </FormField>
             <FormField label="Total Cost (RM)">
-              <input
+              <Input<TPurchase>
                   type="number"
                   step="0.01"
                   min="0.01"
                   name="totalCost"
-                  value={purchaseForm.totalCost}
+                  value={isNaN(purchaseForm.totalCost)? "": purchaseForm.totalCost} // avoid input value NaN error
                   onChange={ev => setPurchaseForm({ ...purchaseForm, totalCost: parseFloat(ev.target.value) })}
                   required
                 />
@@ -111,7 +114,7 @@ export const PurchasesForm = () => {
 
         <Table headings={["Date (mm/dd/yyyy)", "ID", "Quantity", "Cost/Unit (RM)", "Total Cost (RM)", "WAC (Cumulative) (RM)", "Action"]}>
           {inventoryState.purchases.map((p) => (
-              <Row key={p.id} transaction={p} columns={[
+              <Row<TPurchase> key={p.id} transaction={p} columns={[
                 {
                   attributes: {
                     name: "date",

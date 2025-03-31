@@ -52,7 +52,7 @@ button:focus-visible {
 }
 
 form {
-  @apply flex flex-col gap-4 p-4 border border-gray-300 rounded-md mb-6  w-full
+  @apply flex flex-col gap-4 p-4 border border-gray-300 rounded-md mb-6  w-full h-fit
 }
 
 input {
