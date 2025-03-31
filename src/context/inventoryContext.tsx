@@ -1,7 +1,7 @@
-import { ActionDispatch, createContext, Dispatch, PropsWithChildren, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 import { TPurchase } from "../components/features/purchases";
 import { TSale } from "../components/features/sales";
-import { isPurchase, recalculate } from "../utils";
+import { recalculate } from "../utils";
 
 export type TInventory = {
   purchases: TPurchase[];

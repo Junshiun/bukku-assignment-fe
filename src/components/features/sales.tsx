@@ -1,6 +1,6 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { FormEvent, useState } from "react";
 import { formatDate, generateId, validateTransactionDate } from "../../utils";
-import { TInventory, TInventoryAction, useInventoryContext } from "../../context/inventoryContext";
+import { TInventoryAction, useInventoryContext } from "../../context/inventoryContext";
 import { Row } from "../shared/row";
 import { Table } from "../shared/table";
 import { FormField } from "../shared/formField";

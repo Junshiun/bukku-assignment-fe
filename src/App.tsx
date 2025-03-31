@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { PurchasesForm, TPurchase } from "./components/features/purchases";
-import { SalesForm, TSale } from "./components/features/sales";
+import { useState } from "react";
+import { PurchasesForm } from "./components/features/purchases";
+import { SalesForm } from "./components/features/sales";
 import "./App.css"
 import { InventoryProvider } from "./context/inventoryContext";
 
