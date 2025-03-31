@@ -97,7 +97,7 @@ export const SalesForm = () => {
               <Input<TSale>
                 type="number"
                 step="0.01"
-                min="0.01"
+                min="0"
                 name="totalAmount"
                 value={isNaN(saleForm.totalAmount)? "": saleForm.totalAmount}
                 onChange={(e) => setSaleForm({ ...saleForm, totalAmount: parseFloat(e.target.value) })}
@@ -155,7 +155,7 @@ export const SalesForm = () => {
                     defaultValue: parseFloat(`${s.totalAmount}`).toFixed(2),
                     type:"number",
                     step:"0.01",
-                    min:"0.01",
+                    min:"0",
                   },
                   formatValue: (value) => parseFloat(value)
                 },

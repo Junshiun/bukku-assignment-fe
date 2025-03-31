@@ -95,7 +95,7 @@ export const PurchasesForm = () => {
               <Input<TPurchase>
                   type="number"
                   step="0.01"
-                  min="0.01"
+                  min="0"
                   name="totalCost"
                   value={isNaN(purchaseForm.totalCost)? "": purchaseForm.totalCost} // avoid input value NaN error
                   onChange={ev => setPurchaseForm({ ...purchaseForm, totalCost: parseFloat(ev.target.value) })}
@@ -153,7 +153,7 @@ export const PurchasesForm = () => {
                     defaultValue: p.totalCost.toFixed(2),
                     type:"number",
                     step:"0.01",
-                    min:"0.01",
+                    min:"0",
                   },
                   formatValue: (value) => parseFloat(value)
                 },

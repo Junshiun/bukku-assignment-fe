@@ -23,14 +23,14 @@ export const recalculate = (inventory: TInventory, newTransaction: TPurchase | T
   if (isPurchase(newTransaction)) { // new transaction validation
     if (newTransaction.totalCost < 0) {
       throw new Error("Total cost of purchase cannot be less than 0");
-    } else if (newTransaction.quantity < 0) {
-      throw new Error("Quantity of purchase cannot be less than 0");
+    } else if (newTransaction.quantity < 1) {
+      throw new Error("Quantity of purchase cannot be less than 1");
     }
   } else {
     if (newTransaction.totalAmount < 0) {
       throw new Error("Total amount of sales cannot be less than 0");
-    } else if (newTransaction.quantity < 0) {
-      throw new Error("Quantity of sales cannot be less than 0");
+    } else if (newTransaction.quantity < 1) {
+      throw new Error("Quantity of sales cannot be less than 1");
     }
   }
 
