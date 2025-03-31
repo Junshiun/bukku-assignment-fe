@@ -119,8 +119,9 @@ export const SalesForm = () => {
                   attributes: {
                     name: "date",
                     type: "date",
-                    defaultValue: formatDate(s.date)
-                  }
+                    defaultValue: s.date
+                  },
+                  renderValue: (value) => formatDate(value as string)
                 },
                 {
                   attributes: {
